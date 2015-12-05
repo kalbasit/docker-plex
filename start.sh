@@ -1,8 +1,11 @@
 #!/bin/bash
+set -x
 GROUP=plextmp
 
 mkdir -p /config/logs/supervisor
-find /config ! -user plex -print0 | xargs -0 -I{} chown -R plex: {}
+if [[ -z "${SKIP_CHOWN_CONFIG}" ]]; then
+  find /config ! -user plex -print0 | xargs -0 -I{} chown -R plex: {}
+fi
 
 touch /supervisord.log
 touch /supervisord.pid
